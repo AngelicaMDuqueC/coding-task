@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap');
+
+// Override default variables before the import
+$body-bg: #e4e4e4;
+$font-family-base: 'M PLUS Rounded 1c', sans-serif;
+$font-size-base: 1rem;
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
