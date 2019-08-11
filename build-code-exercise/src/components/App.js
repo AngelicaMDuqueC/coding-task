@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from '../pages/Home';
@@ -26,4 +27,12 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    calendar: state.calendar,
+    repositories: state.repositories
+  };
+};
+
+export default connect(mapStateToProps)(App);
