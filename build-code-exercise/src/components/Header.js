@@ -49,7 +49,7 @@ const Header = () => {
                 activeClassName='active'
                 to='/login'
               >
-                Login
+                Sign in
               </NavLink>
             </NavItem>
           </Nav>

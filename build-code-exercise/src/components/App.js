@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from '../pages/Home';
 import CalendarEvents from '../pages/CalendarEvents';
-import Login from '../pages/Login';
+import UserAuth from '../pages/UserAuth';
 import Repositories from '../pages/Repositories';
 
 import Header from './Header';
@@ -19,7 +19,7 @@ const App = () => {
           <Route exact path='/' component={Home} />
           <Route exact path='/events' component={CalendarEvents} />
           <Route exact path='/repositories' component={Repositories} />
-          <Route exact path='/login' component={Login} />
+          <Route exact path='/login' component={UserAuth} />
         </main>
         <Footer />
       </Router>
