@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import {
@@ -16,6 +16,7 @@ import {
   InputGroupText,
   Button,
   CardText,
+  FormFeedback,
   Row
 } from 'reactstrap';
 // import { connect } from 'react-redux'
@@ -23,7 +24,47 @@ import {
 // import { Redirect } from 'react-router-dom';
 import './SignIn.scss';
 
-const signIn = () => {
+const SignIn = () => {
+  const [invalidName, setInvalidName] = useState(false);
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [invalidSecondPassword, setInvalidSecondPassword] = useState(false);
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const secondPasswordRef = useRef();
+
+  const validateName = name => {
+    return name !== '';
+  };
+
+  const validateEmail = email => {
+    // eslint-disable-next-line
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validatePassword = password => {
+    return password.length >= 6;
+  };
+
+  const validateSecondPassword = (password, secondPassword) => {
+    return password === secondPassword && password !== '';
+  };
+
+  const handleSubmit = e => {
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const secondPassword = secondPasswordRef.current.value;
+    setInvalidName(!validateName(name));
+    setInvalidEmail(!validateEmail(email));
+    setInvalidPassword(!validatePassword(password));
+    setInvalidSecondPassword(!validateSecondPassword(password, secondPassword));
+
+    e.preventDefault();
+  };
+
   return (
     <Container className='d-flex flex-column justify-content-center'>
       <Row className='d-flex justify-content-center'>
@@ -40,6 +81,8 @@ const signIn = () => {
                 <Label htmlFor='username'>Username</Label>
                 <InputGroup>
                   <Input
+                    invalid={invalidName}
+                    innerRef={nameRef}
                     type='text'
                     name='username'
                     id='username'
@@ -50,12 +93,17 @@ const signIn = () => {
                       <FaUser />
                     </InputGroupText>
                   </InputGroupAddon>
+                  {invalidName && (
+                  <FormFeedback>That username is invalid</FormFeedback>
+                )}
                 </InputGroup>
               </FormGroup>
               <FormGroup>
                 <Label htmlFor='email'>Email</Label>
                 <InputGroup>
                   <Input
+                    invalid={invalidEmail}
+                    innerRef={emailRef}
                     type='email'
                     name='email'
                     id='email'
@@ -66,12 +114,17 @@ const signIn = () => {
                       <FaEnvelope />
                     </InputGroupText>
                   </InputGroupAddon>
+                  {invalidEmail && (
+                  <FormFeedback>That email is invalid</FormFeedback>
+                )}
                 </InputGroup>
               </FormGroup>
               <FormGroup>
                 <Label htmlFor='password'>Password</Label>
                 <InputGroup>
                   <Input
+                    invalid={invalidPassword}
+                    innerRef={passwordRef}
                     type='password'
                     name='password'
                     id='password'
@@ -82,12 +135,19 @@ const signIn = () => {
                       <FaLock />
                     </InputGroupText>
                   </InputGroupAddon>
+                  {invalidPassword && (
+                  <FormFeedback>
+                    Min password lenght is 6 characters
+                  </FormFeedback>
+                )}
                 </InputGroup>
               </FormGroup>
               <FormGroup>
                 <Label htmlFor='confirmPassword'>Confirm Password</Label>
                 <InputGroup>
                   <Input
+                    invalid={invalidSecondPassword}
+                    innerRef={secondPasswordRef}
                     type='password'
                     name='confirmPassword'
                     id='confirmPassword'
@@ -98,9 +158,12 @@ const signIn = () => {
                       <FaLock />
                     </InputGroupText>
                   </InputGroupAddon>
+                  {invalidSecondPassword && (
+                  <FormFeedback>Passwords don&apos;t match</FormFeedback>
+                )}
                 </InputGroup>
               </FormGroup>
-              <Button>Sign Up</Button>
+              <Button onClick={e => handleSubmit(e)}>Sign Up</Button>
             </Form>
           </CardBody>
           <CardFooter className='text-muted'>
@@ -136,5 +199,4 @@ const signIn = () => {
 // }
 
 // export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
-
-export default signIn;
+export default SignIn;
