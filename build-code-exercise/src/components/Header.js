@@ -9,49 +9,68 @@ import {
   NavItem
 } from 'reactstrap';
 import buildLogo from '../assets/img/logo.png';
+import * as routes from '../routes';
 
-const Header = () => {
+const Header = ({ isLoggedIn, username }) => {
   const [isNavOpen, setNavOpen] = useState(false);
   return (
     <header>
       <Navbar color='dark' dark expand='md'>
-        <NavbarBrand tag={NavLink} to='/'>
+        <NavbarBrand tag={NavLink} to={routes.HOME}>
           <img className='mr-2' src={buildLogo} alt='Hellobuild Logo' />
           <span className='text-sm'>Hello Build</span>
         </NavbarBrand>
         <NavbarToggler onClick={() => setNavOpen(!isNavOpen)} />
         <Collapse isOpen={isNavOpen} navbar>
           <Nav className='ml-auto' navbar>
-            <NavItem>
-              <NavLink
-                exact
-                className='nav-link'
-                activeClassName='active'
-                to='/events'
-              >
-                Events
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                exact
-                className='nav-link'
-                activeClassName='active'
-                to='/repositories'
-              >
-                Repositories
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                exact
-                className='nav-link'
-                activeClassName='active'
-                to='/login'
-              >
-                Sign in
-              </NavLink>
-            </NavItem>
+            {isLoggedIn && (
+              <NavItem>
+                <NavLink
+                  exact
+                  className='nav-link'
+                  activeClassName='active'
+                  to={routes.CALENDAR}
+                >
+                  Calendar
+                </NavLink>
+              </NavItem>
+            )}
+            {isLoggedIn && (
+              <NavItem>
+                <NavLink
+                  exact
+                  className='nav-link'
+                  activeClassName='active'
+                  to={routes.REPOS}
+                >
+                  Repositories
+                </NavLink>
+              </NavItem>
+            )}
+            {isLoggedIn && (
+              <NavItem>
+                <NavLink
+                  exact
+                  className='nav-link'
+                  activeClassName='active'
+                  to={routes.HOME}
+                >
+                  <span className='capitalize'>{username}</span>
+                </NavLink>
+              </NavItem>
+            )}
+            {!isLoggedIn && (
+              <NavItem>
+                <NavLink
+                  exact
+                  className='nav-link'
+                  activeClassName='active'
+                  to={routes.SIGNUP}
+                >
+                  Sign Up
+                </NavLink>
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
