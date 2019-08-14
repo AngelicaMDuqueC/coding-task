@@ -1,8 +1,9 @@
-import { LIST_REPOSITORIES } from '../actionTypes';
+import { CREATE_TOKEN, GET_TOKEN } from '../actionTypes';
 
-// eslint-disable-next-line import/prefer-default-export
-export const listRepositories = repositories => {
-  return dispatch => {
-    dispatch({ type: LIST_REPOSITORIES, repositories });
-  };
+export const createToken = () => {
+  return { type: CREATE_TOKEN };
+};
+
+export const getToken = () => {
+  return { type: GET_TOKEN };
 };
